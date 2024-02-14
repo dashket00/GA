@@ -32,7 +32,7 @@ public class Main {
         repository.add(user3);
         repository.add(user4);
 
-        //repository.deleteById(1);
+        repository.deleteById(1);
 
         Collection<User> allUsers = repository.allUsers();
         for (User user : allUsers) {

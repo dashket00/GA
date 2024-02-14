@@ -25,12 +25,11 @@ public class FileRepository implements ShopRepository {
     }
 
     @Override
-    public void deleteByld(Long userId) {
+    public void deleteById(int i) {
         Collection<User> allUsers = allUsers();
-        allUsers.removeIf(user -> user.getId() == userId);
+        allUsers.removeIf(user -> user.getId() == i);
         saveToFile(allUsers);
     }
-
 
     @Override
     public Collection<User> allUsers() {
