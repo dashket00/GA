@@ -4,10 +4,10 @@ import by.teachmeskills.ga.entity.User;
 import by.teachmeskills.ga.repository.FileRepository;
 import by.teachmeskills.ga.repository.ShopRepository;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +35,26 @@ public class Main {
         repository.deleteById(1);
 
         Collection<User> allUsers = repository.allUsers();
+
+        try {
+            // Чтение данных из файла
+            FileInputStream fileInputStream = new FileInputStream("users.dat");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Collection<User> users = (Collection<User>) objectInputStream.readObject();
+            objectInputStream.close();
+
+            // Маршализация данных в XML
+            JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            for (User user : users) {
+                marshaller.marshal(user, new File(user.getName() + ".xml"));
+            }
+        } catch (IOException | ClassNotFoundException | JAXBException e) {
+            e.printStackTrace();
+        }
+
         for (User user : allUsers) {
             System.out.println(user.getName() + " " + user.getSurname());
         }

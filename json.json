@@ -1,0 +1,18 @@
+{
+  "data": "27 02 2024",
+  "shop": "Shop ‘Gold Apple’",
+  "goods": [
+    {
+      "name": "perfume",
+      "price": 299.99
+    },
+    {
+      "name": "lipstick",
+      "price": 49.99
+    },
+    {
+      "name": "tonic",
+      "price": 79.99
+    }
+  ]
+}

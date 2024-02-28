@@ -1,8 +1,11 @@
 package by.teachmeskills.ga.entity;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlRootElement
 public class User implements Serializable {
     private long id;
     private String name;
@@ -10,6 +13,9 @@ public class User implements Serializable {
     private String login;
     private String password;
 
+    public User() {
+
+    }
     public User(long id, String name, String surname, String login, String password) {
         this.id = id;
         this.name = name;
@@ -24,6 +30,7 @@ public class User implements Serializable {
         return id;
     }
 
+    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -31,7 +38,7 @@ public class User implements Serializable {
     public String getName() {
         return name;
     }
-
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -39,7 +46,7 @@ public class User implements Serializable {
     public String getSurname() {
         return surname;
     }
-
+    @XmlElement
     public void setSurname(String surname) {
         this.surname = surname;
     }
@@ -47,7 +54,7 @@ public class User implements Serializable {
     public String getLogin() {
         return login;
     }
-
+    @XmlElement
     public void setLogin(String login) {
         this.login = login;
     }
@@ -55,7 +62,7 @@ public class User implements Serializable {
     public String getPassword() {
         return password;
     }
-
+    @XmlElement
     public void setPassword(String password) {
         this.password = password;
     }
