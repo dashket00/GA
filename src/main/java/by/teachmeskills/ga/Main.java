@@ -1,19 +1,64 @@
-package by.teachmeskills.GA;
+package by.teachmeskills.ga;
+
+import by.teachmeskills.ga.entity.User;
+import by.teachmeskills.ga.repository.FileRepository;
+import by.teachmeskills.ga.repository.ShopRepository;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        ShopRepository repository = new FileRepository("users.dat");
+//        String filePath = "users.dat"; // Укажите путь к вашему файлу
+//        Collection<User> users = repository.deserializeUsersFromFile(filePath);
+//        for (User user : users) {
+//            System.out.println(user.getName());
+//        }
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        User user1 = new User(1, "John", "Doe", "johndoe", "password");
+        User user2 = new User(2, "Joe", "Voe", "lover11", "123456");
+        User user3 = new User(3, "Michel", "Drake", "smartthings2", "112233");
+        User user4 = new User(4, "Robert", "Stark", "password", "login");
+        repository.add(user1);
+        repository.add(user2);
+        repository.add(user3);
+        repository.add(user4);
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        repository.deleteById(1);
+
+        Collection<User> allUsers = repository.allUsers();
+
+        try {
+            // Чтение данных из файла
+            FileInputStream fileInputStream = new FileInputStream("users.dat");
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Collection<User> users = (Collection<User>) objectInputStream.readObject();
+            objectInputStream.close();
+
+            // Маршализация данных в XML
+            JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            for (User user : users) {
+                marshaller.marshal(user, new File(user.getName() + ".xml"));
+            }
+        } catch (IOException | ClassNotFoundException | JAXBException e) {
+            e.printStackTrace();
+        }
+
+        for (User user : allUsers) {
+            System.out.println(user.getName() + " " + user.getSurname());
         }
     }
+
 }
+
